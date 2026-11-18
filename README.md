@@ -47,7 +47,8 @@ I opened the supplied email in Mozilla Thunderbird and reviewed both the visible
 
 ## 2. First look: what the recipient would see
 
-![Case 01 evidence 01](assets/case-01/evidence-01.png)
+<img width="855" height="689" alt="image" src="https://github.com/user-attachments/assets/fd3960e2-2cae-457d-b212-67ac2bf60764" />
+
 
 *Evidence — The message as displayed in Thunderbird, including sender, subject, PayPal branding and call-to-action button.*
 
@@ -61,7 +62,8 @@ The prominent button says “Setzen Sie die Lieferung fort” (“Continue the d
 
 To check what was behind the display name, I opened Thunderbird’s Message Source view (Ctrl + U). Email headers record delivery information that is not normally visible in the message window. I looked for the From address, Return-Path, Received lines and authentication results. These fields help distinguish what the email claims from what the receiving mail system actually observed.
 
-![Case 01 evidence 02](assets/case-01/evidence-02.png)
+<img width="855" height="336" alt="image" src="https://github.com/user-attachments/assets/f593675e-04f0-4be5-b742-be62712a740b" />
+
 
 *Evidence — Message Source: Return-Path, Received chain, Received-SPF and sender information.*
 
@@ -80,11 +82,14 @@ To check what was behind the display name, I opened Thunderbird’s Message Sour
 
 The From field is the identity presented to the recipient. In this case it uses a PayPal-like display name, while the underlying address belongs to kodehexa.net. The Return-Path is the envelope sender used for delivery handling and bounced messages. Here, it is bounce@rjttznyzjjzydnillquh.designclub.uk.com. A different Return-Path is not automatically malicious—legitimate mailing systems often use one—but the combination of unrelated domains and PayPal branding makes the claimed identity difficult to trust.
 
-![Case 01 evidence 03](assets/case-01/evidence-03.png)
+<img width="855" height="313" alt="image" src="https://github.com/user-attachments/assets/e5277160-3f1c-473c-a245-0adb777335be" />
 
-![Case 01 evidence 04](assets/case-01/evidence-04.png)
 
-![Case 01 evidence 05](assets/case-01/evidence-05.png)
+<img width="855" height="336" alt="image" src="https://github.com/user-attachments/assets/571aac6c-9618-43a4-9013-4c4901f537e7" />
+
+
+<img width="855" height="335" alt="image" src="https://github.com/user-attachments/assets/f98ee8e7-261d-4632-a083-5dc245e45d1f" />
+
 
 *Evidence — Additional header fields show Received-SPF, From, X-EMAIL and Envelope-To.*
 
@@ -94,7 +99,8 @@ The raw source also contains X-EMAIL and unsubscribe-related fields. These are u
 
 The Received headers describe mail-server hops. One visible line shows Google receiving the message from a host identifying itself as foresthillrestaurant.com, with the connecting host recorded as capchrist.org [134.195.196.43]. Another line refers to efianalytics.com [216.244.76.116]. I recorded both addresses because they may help further infrastructure analysis. They should not automatically be described as the attacker’s personal IP address: mail may pass through multiple servers, and header trust depends on which server added each line.
 
-![Case 01 evidence 06](assets/case-01/evidence-06.png)
+<img width="855" height="125" alt="image" src="https://github.com/user-attachments/assets/8caebcf5-3097-424d-8901-12bc87320894" />
+
 
 *Evidence — Received-SPF and Authentication-Results alongside the receiving Google server information.*
 
@@ -102,7 +108,8 @@ The Received headers describe mail-server hops. One visible line shows Google re
 
 The Received-SPF header reports “pass”. The accompanying text states that the domain used in the envelope sender authorised 134.195.196.43 to send mail. This is an important distinction: SPF checks whether a server is authorised for the envelope-sender domain; it does not prove that the display name is truthful or that the email came from PayPal.
 
-![Case 01 evidence 07](assets/case-01/evidence-07.png)
+<img width="855" height="123" alt="image" src="https://github.com/user-attachments/assets/cc77658c-8a5f-45f3-b0ab-9a36906851be" />
+
 
 *Evidence — Authentication result and Return-Path shown together, making the domain checked by SPF visible.*
 
@@ -112,7 +119,8 @@ The screenshot also shows ARC-Authentication-Results reporting spf=pass. ARC rec
 
 Next, I searched the HTML source for “https” and inspected a link embedded in the message. The visible URL points to a hosted HTML file rather than an obvious PayPal website. I did not visit it, so I cannot confirm the page contents, whether it redirects, or whether it attempts credential collection.
 
-![Case 01 evidence 08](assets/case-01/evidence-08.png)
+<img width="855" height="462" alt="image" src="https://github.com/user-attachments/assets/b7278ece-a831-49fe-bf8d-3fdda6d74d85" />
+
 
 *Evidence — HTML source contains a URL beginning with https://storage.googleapis.com/... and pointing to an .html file.*
 
@@ -149,7 +157,7 @@ Limitations: I did not run a live VirusTotal/urlscan reputation check, inspect t
 
 ## 9. What I learned
 
-This case helped me see why phishing analysis needs more than spotting a suspicious-looking email. I learned to separate the sender identity shown to a person from the envelope sender checked by SPF, read the mail-delivery chain without assuming every IP belongs to the attacker, and assess a cloud-hosted link in context. Most importantly, I practised writing down what the evidence actually supports and being explicit about what I could not verify.
+This case helped me see why phishing analysis needs more than spotting a suspicious-looking email. I learned to separate the sender identity shown to a person from the envelope sender checked by SPF, read the mail delivery chain without assuming every IP belongs to the attacker, and assess a cloud-hosted link in context. Most importantly, I practised writing down what the evidence actually supports and being explicit about what I could not verify.
 
 ## Evidence register
 
@@ -171,7 +179,8 @@ I reviewed the message in Mozilla Thunderbird, checked the email headers, looked
 
 ## 2. Initial Email Review
 
-![Case 02 evidence 01](assets/case-02/evidence-01.png)
+<img width="855" height="730" alt="image" src="https://github.com/user-attachments/assets/0712367c-aec3-48b0-b43c-f4cebb49b422" />
+
 
 *Figure — The message as displayed in Mozilla Thunderbird.*
 
@@ -187,7 +196,8 @@ The message described incorrect bank details, difficulty reaching a colleague an
 
 ## 3. Email Header Analysis
 
-![Case 02 evidence 02](assets/case-02/evidence-02.png)
+<img width="855" height="722" alt="image" src="https://github.com/user-attachments/assets/f71045c6-26f0-4cd6-a216-2dc620661224" />
+
 
 *Figure — Message Source in Thunderbird showing sender, recipient, date and Received header.*
 
@@ -199,7 +209,8 @@ This provided an IP address to investigate. The From and Return-Path fields were
 
 ## 4. Originating IP Reputation
 
-![Case 02 evidence 03](assets/case-02/evidence-03.png)
+<img width="855" height="595" alt="image" src="https://github.com/user-attachments/assets/149c7272-66cb-4638-ac5b-e762ade723be" />
+
 
 *Figure — VirusTotal IP lookup for 71.19.248.52, showing Canada and no vendor detections.*
 
@@ -214,11 +225,12 @@ I searched the IP address on VirusTotal. The result showed 0 out of 92 security 
 
 ## 5. Attachment Extraction and Inspection
 
-![Case 02 evidence 04](assets/case-02/evidence-04.png)
+<img width="855" height="294" alt="image" src="https://github.com/user-attachments/assets/c365755f-436a-4cd0-a3b3-5401a3622cd2" />
 
 *Figure — The ZIP attachment in the lab Files folder.*
 
-![Case 02 evidence 05](assets/case-02/evidence-05.png)
+<img width="855" height="538" alt="image" src="https://github.com/user-attachments/assets/515e40ec-3b21-44bc-a62f-a7e3cff4e2e7" />
+
 
 *Figure — The extracted folder containing the executable attachment.*
 
@@ -228,9 +240,11 @@ This was a major warning sign. The email talked about an invoice and payment sli
 
 ## 6. Calculating the SHA-256 Hash
 
-![Case 02 evidence 06](assets/case-02/evidence-06.png)
+<img width="855" height="384" alt="image" src="https://github.com/user-attachments/assets/4fa331fa-71da-461b-9bbf-dab669d7d5dc" />
 
-![Case 02 evidence 07](assets/case-02/evidence-07.png)
+
+<img width="855" height="594" alt="image" src="https://github.com/user-attachments/assets/2140a8eb-ab7c-4e69-b252-e848f8a7c4fa" />
+
 
 *Figure — HashMyFiles Properties showing the file hashes and metadata.*
 
@@ -242,7 +256,8 @@ A hash does not tell me by itself whether a file is malicious. It is an identifi
 
 ## 7. VirusTotal File Analysis
 
-![Case 02 evidence 08](assets/case-02/evidence-08.png)
+<img width="855" height="836" alt="image" src="https://github.com/user-attachments/assets/2c214a52-50d5-4070-b310-61f2de4b798e" />
+
 
 *Figure — VirusTotal reports 59 of 70 security vendors flagging the file as malicious.*
 
