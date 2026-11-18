@@ -18,7 +18,7 @@ This report brings together two independent phishing investigations. I kept the 
 
 ## Project overview
 
-I investigated two suspicious emails using Mozilla Thunderbird and the evidence supplied in the LetsDefend lab. The first case involved a PayPal-themed reward message and an external HTML link. The second involved a business payment dispute and a Windows executable attachment. I treated each as a separate investigation, documented the observations, and explained the limits of what I could verify.
+I investigated two suspicious emails using Mozilla Thunderbird and the evidence supplied in the LetsDefend lab. The first case involved a PayPal themed reward message and an external HTML link. The second involved a business payment dispute and a Windows executable attachment. I treated each as a separate investigation, documented the observations, and explained the limits of what I could verify.
 
 | Case | Investigation focus |
 | --- | --- |
@@ -41,7 +41,7 @@ Case type: Simulated phishing email analysis • Evidence source: paypal.eml •
 
 ## 1. Why I investigated this email
 
-In this LetsDefend challenge, I was given a password-protected ZIP archive containing an email file named paypal.eml. The message appeared to come from PayPal and told the recipient, in German, that a reward was waiting to be confirmed. My aim was to check whether the message was genuinely associated with PayPal, identify the infrastructure and links it used, and explain the evidence behind my conclusion. This is a training case, not an incident from a live organisation.
+In this LetsDefend challenge, I was given a password protected ZIP archive containing an email file named paypal.eml. The message appeared to come from PayPal and told the recipient, in German, that a reward was waiting to be confirmed. My aim was to check whether the message was genuinely associated with PayPal, identify the infrastructure and links it used, and explain the evidence behind my conclusion. This is a training case, not an incident from a live organisation.
 
 I opened the supplied email in Mozilla Thunderbird and reviewed both the visible message and its raw source. I did not click the links or open the linked HTML page.
 
@@ -52,7 +52,7 @@ I opened the supplied email in Mozilla Thunderbird and reviewed both the visible
 
 *Evidence — The message as displayed in Thunderbird, including sender, subject, PayPal branding and call-to-action button.*
 
-The display name uses decorative characters around “P.A.Y.P.A.L”, and the body shows a large “Paypal.com” heading. At first glance, those details are meant to make the message feel official. The actual sender address, however, ends in kodehexa.net rather than a PayPal-owned domain. That difference was the first reason I questioned the message.
+The display name uses decorative characters around “P.A.Y.P.A.L”, and the body shows a large “Paypal.com” heading. At first glance, those details are meant to make the message feel official. The actual sender address, however, ends in kodehexa.net rather than a PayPal owned domain. That difference was the first reason I questioned the message.
 
 The subject, “Wir haben Sie angerufen, Sie haben nicht geantwortet”, means approximately “We called you, but you did not answer.” Yet the body talks about a PayPal reward and asks the recipient to confirm delivery. The subject and message do not fit together naturally. The body also contains awkward German, a customer number, the recipient’s name and email address, and a “PayPal-Guthabenkarte 1000” reward. Personal details can make a scam look credible, but their presence does not prove the sender is genuine.
 
@@ -80,7 +80,7 @@ To check what was behind the display name, I opened Thunderbird’s Message Sour
 
 ### 4.1 From and Return-Path are not the same thing
 
-The From field is the identity presented to the recipient. In this case it uses a PayPal-like display name, while the underlying address belongs to kodehexa.net. The Return-Path is the envelope sender used for delivery handling and bounced messages. Here, it is bounce@rjttznyzjjzydnillquh.designclub.uk.com. A different Return-Path is not automatically malicious—legitimate mailing systems often use one—but the combination of unrelated domains and PayPal branding makes the claimed identity difficult to trust.
+The From field is the identity presented to the recipient. In this case it uses a PayPal-like display name, while the underlying address belongs to kodehexa.net. The Return-Path is the envelope sender used for delivery handling and bounced messages. Here, it is bounce@rjttznyzjjzydnillquh.designclub.uk.com. A different Return-Path is not automatically malicious legitimate mailing systems often use one, but the combination of unrelated domains and PayPal branding makes the claimed identity difficult to trust.
 
 <img width="855" height="313" alt="image" src="https://github.com/user-attachments/assets/e5277160-3f1c-473c-a245-0adb777335be" />
 
@@ -93,11 +93,11 @@ The From field is the identity presented to the recipient. In this case it uses 
 
 *Evidence — Additional header fields show Received-SPF, From, X-EMAIL and Envelope-To.*
 
-The raw source also contains X-EMAIL and unsubscribe-related fields. These are useful observations, but they do not establish legitimacy on their own. I did not assume the address in an X- header was a verified sender identity.
+The raw source also contains X-EMAIL and unsubscribe related fields. These are useful observations, but they do not establish legitimacy on their own. I did not assume the address in an X- header was a verified sender identity.
 
 ### 4.2 Reading the Received chain
 
-The Received headers describe mail-server hops. One visible line shows Google receiving the message from a host identifying itself as foresthillrestaurant.com, with the connecting host recorded as capchrist.org [134.195.196.43]. Another line refers to efianalytics.com [216.244.76.116]. I recorded both addresses because they may help further infrastructure analysis. They should not automatically be described as the attacker’s personal IP address: mail may pass through multiple servers, and header trust depends on which server added each line.
+The Received headers describe mail server hops. One visible line shows Google receiving the message from a host identifying itself as foresthillrestaurant.com, with the connecting host recorded as capchrist.org [134.195.196.43]. Another line refers to efianalytics.com [216.244.76.116]. I recorded both addresses because they may help further infrastructure analysis. They should not automatically be described as the attacker’s personal IP address: mail may pass through multiple servers, and header trust depends on which server added each line.
 
 <img width="855" height="125" alt="image" src="https://github.com/user-attachments/assets/8caebcf5-3097-424d-8901-12bc87320894" />
 
@@ -151,7 +151,7 @@ Rather than relying on one suspicious detail, I considered the message as a whol
 
 The LetsDefend challenge also marked the phishing classification as correct. This is a classification of the email, not a claim that I observed stolen credentials, malware execution or a successful compromise.
 
-In a real security workflow, I would preserve the original .eml, record the relevant URLs and mail-server indicators, quarantine the message where appropriate, and check whether the recipient interacted with it. If interaction were confirmed, I would escalate according to the organisation’s incident process. Before recommending broad domain or IP blocks, I would check whether the infrastructure is shared and whether the indicators are specific enough to avoid disrupting legitimate traffic.
+In a real security workflow, I would preserve the original .eml, record the relevant URLs and mail server indicators, quarantine the message where appropriate, and check whether the recipient interacted with it. If interaction were confirmed, I would escalate according to the organisation’s incident process. Before recommending broad domain or IP blocks, I would check whether the infrastructure is shared and whether the indicators are specific enough to avoid disrupting legitimate traffic.
 
 Limitations: I did not run a live VirusTotal/urlscan reputation check, inspect the hosted HTML page, verify DKIM/DMARC, or review recipient endpoint/network logs. Those tasks would be sensible next steps, but they are not presented here as completed work.
 
